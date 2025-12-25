@@ -5,9 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
-#define SCREENLOG(Color, Format, ...) \
-    if (GEngine) { GEngine->AddOnScreenDebugMessage(-1, 20.0f, Color, FString::Printf(Format, ##__VA_ARGS__)); }
-
 #include "MyActor.generated.h"
 
 UCLASS()
@@ -32,16 +29,25 @@ public:
     void RandomMoveAndTurn();
 
     UPROPERTY(EditAnywhere, Category = "Settings")
-    FVector StartLocation;
+    FVector StartLocation = FVector(0, 50, 0);
 
     UPROPERTY(EditAnywhere, Category = "Settings")
-    int32 TotalMoveCount;
+    int32 MaxMoveCount = 10;
 
+    UPROPERTY(EditAnywhere, Category = "Settings")
+    FVector MoveRangeMin = FVector(-300.f, -300.f, 0.f);
+
+    UPROPERTY(EditAnywhere, Category = "Settings")
+    FVector MoveRangeMax = FVector(300.f, 300.f, 300.f);
+
+    UPROPERTY(EditAnywhere, Category = "Settings")
+    float EventProbability = 0.5f;
 private:
-    int32 MoveCount;
     FTimerHandle TimerHandle;
-    int32 EventCount;
-    double TotalDistance;
+
+    int32 MoveCount = 0;
+    int32 EventCount = 0;
+    double TotalDistance = 0;
 
     bool EventTriggered();
 };
